@@ -25,9 +25,11 @@ with tabs[0]:
 
     # Display a calendar where users can click to select dates
     st.subheader("Select a date to add your availability")
-    selected_date = calendar(
-        "Pick a Date"
-    ).selected_date
+    selected_date = calendar(events=st.session_state['availability'], 
+                             events_label='title', 
+                             events_start='start', 
+                             events_end='end', 
+                             key='calendar')
 
     # Input for the user's name
     name = st.text_input("Enter your name:")
