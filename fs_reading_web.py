@@ -25,15 +25,45 @@ with tabs[0]:
 
     # Display a calendar where users can click to select dates
     st.subheader("Select a date to add your availability")
-    selected_date = calendar(events=st.session_state['availability'], 
-                             events_label='title', 
-                             events_start='start', 
-                             events_end='end', 
-                             key='calendar')
-
-    # Input for the user's name
+    # Input for user's name
     name = st.text_input("Enter your name:")
 
+    # Prepare events for the calendar
+    events = [
+        {
+            "title": row["Name"],
+            "start": row["Date"],
+            "end": row["Date"],
+        }
+        for _, row in st.session_state['availability'].iterrows()
+    ]
+
+    # Display calendar with event handling
+    result = calendar(
+        events=events,
+        callbacks=["dateClick"],
+        key="calendar",
+        options={
+            "editable": True,
+            "selectable": True,
+            "initialView": "dayGridMonth",
+        },
+    )
+
+    # Handle dateClick callback
+    if result and "dateClick" in result:
+        selected_date = result["dateClick"]["date"]
+        if name:
+            # Add availability to the DataFrame
+            new_entry = {"Date": selected_date, "Name": name}
+            st.session_state['availability'] = pd.concat(
+                [st.session_state['availability'], pd.DataFrame([new_entry])],
+                ignore_index=True,
+            )
+            st.success(f"Availability added for {name} on {selected_date}.")
+        else:
+            st.error("Please enter your name before selecting a date.")
+    
     # Button to submit availability for the selected date
     if st.button("Submit Availability"):
         if name and selected_date:
