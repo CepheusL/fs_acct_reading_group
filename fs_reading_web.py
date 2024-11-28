@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 import plotly.express as px
-from streamlit_calendar import Calendar
+from streamlit_calendar import calendar
 
 # Initialize session state variables to store data across user interactions
 if 'availability' not in st.session_state:
@@ -16,16 +16,16 @@ if 'topics' not in st.session_state:
 # Title of the application
 st.title("Meeting Organizer")
 
-# Create two tabs for different functionalities: Calendar and Meeting Topics
-tabs = st.tabs(["Calendar", "Meeting Topics"])
+# Create two tabs for different functionalities: calendar and Meeting Topics
+tabs = st.tabs(["calendar", "Meeting Topics"])
 
-# Tab 1: Calendar Functionality
+# Tab 1: calendar Functionality
 with tabs[0]:
     st.header("Indicate Your Availability")
 
     # Display a calendar where users can click to select dates
     st.subheader("Select a date to add your availability")
-    selected_date = Calendar(
+    selected_date = calendar(
         "Pick a Date",
         default_date=datetime.today().date(),
         select_multiple=False
