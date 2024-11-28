@@ -26,9 +26,7 @@ with tabs[0]:
     # Display a calendar where users can click to select dates
     st.subheader("Select a date to add your availability")
     selected_date = calendar(
-        "Pick a Date",
-        default_date=datetime.today().date(),
-        select_multiple=False
+        "Pick a Date"
     ).selected_date
 
     # Input for the user's name
